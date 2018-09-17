@@ -3,7 +3,7 @@
 
 #include <SDL/SDL.h>
 
-
+ 
 class Game{
 public:
   Game();
