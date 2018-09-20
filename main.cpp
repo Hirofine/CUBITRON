@@ -3,7 +3,7 @@
 
 int main(){
  Game game;
- game.initSDL("jeu", 1024, 512, 3);
+ game.initSDL("jeu", 1024, 720, 3);
  while(game.running()){
    game.handleEvents();
    game.draw();

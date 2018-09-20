@@ -6,7 +6,8 @@ public:
   Map();
   
 private:
-  
+  int width_;
+  int height_;
   
 };
 

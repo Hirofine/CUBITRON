@@ -2,7 +2,7 @@
 #define _GAME_H_
 
 #include <SDL/SDL.h>
-
+#include "perso.h"
  
 class Game{
 public:
@@ -12,6 +12,9 @@ public:
   void clean();
   void draw();
   void handleEvents();
+  Perso perso;
+  void drawObject();
+  void movePerso(Perso *perso);
   
 private:
   void putpixel(int x, int y, Uint32 pixel);
@@ -19,6 +22,13 @@ private:
   
   bool game_running_;
   SDL_Surface * sdl_screen_;
+  SDL_Surface * textures_;
+  int ntextures;
+  int textsize;
+  
+  int bpp_;
+  int width_;
+  int height_;
 };
 
 #endif
