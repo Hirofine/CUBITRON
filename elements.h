@@ -11,8 +11,7 @@ class Point{
 
 		void setX(int x);
 		void setY(int y);
-		void moveX(int x);
-		void moveY(int y);
+		void move(int x, int y);
 
 		int getX();
 		int getY();
@@ -31,8 +30,7 @@ class Segment{
 
 		void setP1(int x, int y);
 		void setP2(int x, int y);
-		void transposeX(int x);
-		void transposeY(int y);
+		void transpose(int x, int y);
 
 
 		Point getP1();

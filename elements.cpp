@@ -19,13 +19,11 @@ void Point::setY(int y){
 	y_ = y;
 }
 
-void Point::moveX(int x){
+void Point::move(int x, int y){
 	x_ += x;
-}
-
-void Point::moveY(int y){
 	y_ += y;
 }
+
 
 	/* all getters */
 int Point::getX(){
@@ -69,13 +67,11 @@ void Segment::setP2(int x, int y){
 }
 
 
-void Segment::transposeX(int x){
-	p1_->moveX(x);
-	p2_->moveX(x);
-}
-void Segment::transposeY(int y){
-	p1_->moveY(y);
-	p2_->moveY(y);
+void Segment::transpose(int x, int y){
+	p1_->move(x,0);
+	p2_->move(x,0);
+	p1_->move(0,y);
+	p2_->move(0,y);
 }
 
 	/* all getters */

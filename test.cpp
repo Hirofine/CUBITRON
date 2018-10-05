@@ -25,9 +25,11 @@ int main(){
     cout<<"\n";
     Segment s(&p1,&p2);
     afficher(s);
-    s.transposeX(20);
+    s.transpose(20,0);
     afficher(s);
-    p1.moveX(80);
+    p1.move(80,0);
     afficher(s);
+    Segment s1(s);
+    afficher(s1);
     return 0;
 }
