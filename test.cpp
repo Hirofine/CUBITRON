@@ -13,7 +13,7 @@ void afficher(Segment s){
 	cout<<"P1 : ";
 	afficher(s.getP1());
 	cout<<"\nP2 : ";
-	afficher(s.getP1());
+	afficher(s.getP2());
 	cout<<"\n";
 }
 
@@ -23,13 +23,12 @@ int main(){
     cout<<"\n";
     afficher(p2);
     cout<<"\n";
-    Segment s(&p1,&p2);
+    Segment s = Segment();
     afficher(s);
     s.transpose(20,0);
     afficher(s);
     p1.move(80,0);
     afficher(s);
-    Segment s1(s);
-    afficher(s1);
+    afficher(p1);
     return 0;
 }

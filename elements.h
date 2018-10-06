@@ -24,7 +24,7 @@ class Point{
 class Segment{
 	public:
 		Segment();
-		Segment(Point *p1, Point *p2);
+		Segment(Point p1, Point p2);
 		Segment(const Segment &s);
 		~Segment();
 
@@ -37,9 +37,28 @@ class Segment{
 		Point getP2();
 
 	private:
-		Point *p1_;
-		Point *p2_;
+		Point p1_;
+		Point p2_;
 
+};
+
+class Triangle{
+	public:
+		Triangle();
+		Triangle(Point p1, Point p2, Point p3);
+		Triangle(Segment s, Point p);
+		Triangle(const Triangle &t);
+		~Triangle();
+
+		void transpose(int x, int y);
+
+		Point getP1();
+		Point getP2();
+		Point getP3();
+	private:
+		Point p1_;
+		Point p2_;
+		Point p3_;
 };
 
 #endif
