@@ -4,7 +4,7 @@
 
 class Point{
 	public:
-		Point();
+        Point();
 		Point(int x, int y);
 		Point(const Point &p);
 		~Point();

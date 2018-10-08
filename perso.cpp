@@ -7,7 +7,7 @@
 
 
 /* init */
-Perso::Perso():posx_(300), posy_(300),width_(50), height_(100), speedx_(1), speedy_(1.), dirx_(0), diry_(1){
+Perso::Perso():posx_(300), posy_(300),width_(100), height_(100), speedx_(3), speedy_(1.), dirx_(0), diry_(1), initJump_(0), initFall_(0), initFallPosy_(0), initFallSpeedy_(0), isJumping_(0){
 }
 
 
@@ -47,16 +47,29 @@ int Perso::getDirY(){
 
 /* all setters */
 void Perso::jump(){
+    if(isJumping_ == 0){
+        speedy_ = 2.3;
+        initFall_ = SDL_GetTicks();
+        initFallPosy_ = (720 - posy_);
+        initFallSpeedy_ = speedy_;
+        
+    }
     
 }
 
 void Perso::fall(){
-    int posy = posy_ + (speedy_);
-    if (posy < (720 - height_)){ 
-        posy_ = posy;
-        speedy_ = speedy_ * 1;
+    double posy = (initFallPosy_) + (initFallSpeedy_ * (SDL_GetTicks() - initFall_)) +  ((int)(-0.01 * ((SDL_GetTicks() - initFall_)*(SDL_GetTicks() - initFall_)))>>1) ;
+    if (posy < 720 && (posy > 100) && !collide()){ 
+        posy_ = (int)(720 - posy);
+        speedy_ = initFallSpeedy_ + -0.01 * (SDL_GetTicks() - initFall_);
     }else{
-        speedy_ = 1;
+        if(posy < 100){
+            posy_ = 620;
+            isJumping_ = 0;
+            
+        }else{
+            speedy_ = 0;
+        }
     }
 }
 
@@ -82,6 +95,10 @@ void Perso::setSpeedx(int speed){
 
 void Perso::setSpeedy(float speed){
     speedy_ = speed;
+}
+
+void Perso::setIsJumping(int val){
+    isJumping_ = val; 
 }
 
 /* other */

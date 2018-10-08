@@ -16,7 +16,7 @@ void afficher(Segment s){
 	afficher(s.getP2());
 	cout<<"\n";
 }
-
+/*
 int main(){
     Point p1(5,25),p2(10,80);
     afficher(p1);
@@ -32,3 +32,4 @@ int main(){
     afficher(p1);
     return 0;
 }
+*/

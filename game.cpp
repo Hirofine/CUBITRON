@@ -35,12 +35,16 @@ void Game::handleEvents(){
         if('d' == event.key.keysym.sym){
             perso.setDirX(1);
         }
+        if(' ' == event.key.keysym.sym){
+             perso.jump();
+             perso.setIsJumping(1);
+        }
     }
     if(SDL_KEYUP == event.type){
-        if('q' == event.key.keysym.sym){
+        if('q' == event.key.keysym.sym && perso.getDirX() == -1){
             perso.setDirX(0);
         }
-        if('d' == event.key.keysym.sym){
+        if('d' == event.key.keysym.sym && perso.getDirX() == 1){
             perso.setDirX(0);
         }
     }
@@ -50,7 +54,8 @@ void Game::handleEvents(){
 void Game::draw(){
     SDL_FillRect(sdl_screen_, NULL, SDL_MapRGB(sdl_screen_->format, 0, 0, 0));
     movePerso(&perso);
-    //perso.fall();
+    perso.fall();
+    
     drawObject();
     SDL_Flip(sdl_screen_);
 }
@@ -85,12 +90,11 @@ void Game::movePerso(Perso *perso){
     if (posx >=0 && posx <= (width_ - perso->getWidth())){
         perso->setX(posx);
     }
-    int posy = perso->getY() + (perso->getSpeedy() * perso->getDirY());
-    if(posy < height_ - perso->getHeight()){
+    //int posy = perso->getY() + (perso->getSpeedy() * perso->getDirY());
+    /*if(posy < height_ - perso->getHeight()){
         perso->setY(posy);
         perso->setSpeedy(perso->getSpeedy() * 1.1);
-        printf("speedy_ = %f\n", perso->getSpeedy());
     }else{
         perso->setSpeedy(1.);
-    }
+    }*/
 }

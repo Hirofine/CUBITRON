@@ -5,7 +5,7 @@ Point::Point() : x_(0),y_(0){}
 
 Point::Point(int x, int y) : x_(x), y_(y){}
 
-Point::Point(const Point &p){
+Point::Point(const Point &p): x_(0),y_(0){
 	x_ = p.x_;
 	y_ = p.y_;
 }
@@ -39,17 +39,13 @@ Point::~Point(){}
 
 // Segment
 	/* init */
-Segment::Segment(){
-	p1_.setX(0);
-	p1_.setY(0);
-	p2_.setX(0);
-	p2_.setY(0);
+Segment::Segment():p1_(Point()), p2_(Point()){
 }
-Segment::Segment(Point p1, Point p2){
+Segment::Segment(Point p1, Point p2): p1_(Point()), p2_(Point()){
 	p1_ = p1;
 	p2_ = p2;
 }
-Segment::Segment(const Segment &s){
+Segment::Segment(const Segment &s):p1_(Point()), p2_(Point()){
 	p1_= s.p1_;
 	p2_= s.p2_;
 }
@@ -84,7 +80,7 @@ Segment::~Segment(){}
 
 // Triangle
 	/* init */
-Triangle::Triangle(){
+Triangle::Triangle():p1_(Point()), p2_(Point()), p3_(Point()){
 	p1_.setX(0);
 	p1_.setY(0);
 	p2_.setX(0);
@@ -92,17 +88,17 @@ Triangle::Triangle(){
 	p3_.setX(0);
 	p3_.setY(0);
 }
-Triangle::Triangle(Point p1, Point p2, Point p3){
+Triangle::Triangle(Point p1, Point p2, Point p3):p1_(Point()), p2_(Point()), p3_(Point()){
 	p1_ = p1;
 	p2_ = p2;
 	p3_ = p3;
 }
-Triangle::Triangle(Segment s, Point p){
+Triangle::Triangle(Segment s, Point p):p1_(Point()), p2_(Point()), p3_(Point()){
 	p1_ = s.getP1();
 	p2_ = s.getP2();
 	p3_ = p;
 }
-Triangle::Triangle(const Triangle &t){
+Triangle::Triangle(const Triangle &t):p1_(Point()), p2_(Point()), p3_(Point()){
 	p1_ = t.p1_;
 	p2_ = t.p2_;
 	p3_ = t.p3_;

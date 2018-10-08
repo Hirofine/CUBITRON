@@ -17,6 +17,7 @@ public:
   void jump();
   void setX(int x);
   void setY(int y);
+  void setIsJumping(int val);
   
   int getSpeedx();
   float getSpeedy();
@@ -38,6 +39,12 @@ private:
   float speedy_;
   int dirx_;
   int diry_;
+  
+  Uint32 initJump_;
+  Uint32 initFall_;
+  int initFallPosy_;
+  float initFallSpeedy_;
+  int isJumping_;
   
 };
 
