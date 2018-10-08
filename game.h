@@ -1,6 +1,8 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#define SCREEN_WIDTH 1080
+#define SCREEN_HEIGHT 720
 #include <SDL/SDL.h>
 #include "perso.h"
  

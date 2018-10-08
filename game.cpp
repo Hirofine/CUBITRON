@@ -31,13 +31,18 @@ void Game::handleEvents(){
     if(SDL_KEYDOWN == event.type){
         if('q' == event.key.keysym.sym){
             perso.setDirX(-1);
+            perso.setOrientation(-1);
         }
         if('d' == event.key.keysym.sym){
             perso.setDirX(1);
+            perso.setOrientation(1);
         }
         if(' ' == event.key.keysym.sym){
              perso.jump();
              perso.setIsJumping(1);
+        }
+        if('e' == event.key.keysym.sym){
+            perso.dash();
         }
     }
     if(SDL_KEYUP == event.type){
@@ -78,6 +83,7 @@ void Game::putpixel(int x, int y, Uint32 pixel){
     }
 }
 void Game::drawObject(){
+    
     for(int i = 0; i < perso.getWidth(); i++){
         for(int j = 0; j < perso.getHeight(); j++){
             putpixel(perso.getX() + i, perso.getY() + j, SDL_MapRGB(sdl_screen_->format, 255,255,255));
@@ -90,11 +96,4 @@ void Game::movePerso(Perso *perso){
     if (posx >=0 && posx <= (width_ - perso->getWidth())){
         perso->setX(posx);
     }
-    //int posy = perso->getY() + (perso->getSpeedy() * perso->getDirY());
-    /*if(posy < height_ - perso->getHeight()){
-        perso->setY(posy);
-        perso->setSpeedy(perso->getSpeedy() * 1.1);
-    }else{
-        perso->setSpeedy(1.);
-    }*/
 }
