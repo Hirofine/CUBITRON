@@ -1,6 +1,8 @@
 #ifndef _ELEMENTS_
 #define _ELEMENTS_
 
+#include <vector>
+#include "stdarg.h"
 
 class Point{
 	public:
@@ -59,6 +61,22 @@ class Triangle{
 		Point p1_;
 		Point p2_;
 		Point p3_;
+};
+
+class Polygone{
+	public:
+		Polygone();
+		Polygone(int n, ...);
+		Polygone(Point *tab, int taille);
+
+		void addP(Point p);
+		void deleteP(int n);
+
+		Point getP(int n);
+		int getNbrePts();
+	private:
+		std::vector<Point> tp;
+		int nbreP;
 };
 
 #endif

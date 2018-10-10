@@ -1,5 +1,6 @@
 #include "elements.h"
-
+#include <vector>
+#include "stdarg.h"
 	/* init */
 Point::Point() : x_(0),y_(0){}
 
@@ -127,4 +128,54 @@ Point Triangle::getP2(){
 }
 Point Triangle::getP3(){
 	return p3_;
+}
+
+	/*destroy*/
+Triangle::~Triangle(){}
+// Polygone
+	/* init */
+Polygone::Polygone(){
+	tp.push_back(Point());
+	tp.push_back(Point());
+	tp.push_back(Point());
+	nbreP = 3;
+}
+Polygone::Polygone(int n, ...){
+	va_list va;
+	va_start(va, n);
+
+	for (int i = 0; i < n; ++i)
+	{
+		tp.push_back(va_arg(va, Point));
+	}
+	nbreP = n;
+}
+Polygone::Polygone(Point *tab, int taille){
+	nbreP = taille;
+	for (int i = 0; i < taille; ++i)
+	{
+		tp.push_back(tab[i]);
+	}
+}
+	/*setters*/
+void Polygone::addP(Point p){
+	tp.push_back(p);
+	nbreP++;
+}
+void Polygone::deleteP(int n){
+	for (int i = n; i < tp.size() - 1; ++i)
+	{
+		tp[n] = tp[n+1];
+	}
+	tp.pop_back();
+	nbreP--;
+}
+
+	/*getters*/
+Point Polygone::getP(int n){
+	return tp[n];
+}
+
+int Polygone::getNbrePts(){
+	return nbreP;
 }
