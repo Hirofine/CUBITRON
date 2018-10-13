@@ -6,10 +6,7 @@ Point::Point() : x_(0),y_(0){}
 
 Point::Point(int x, int y) : x_(x), y_(y){}
 
-Point::Point(const Point &p){
-	x_ = p.x_;
-	y_ = p.y_;
-}
+Point::Point(const Point &p) : x_(p.x_), y_(p.y_){}
 
 	/* all setters */
 void Point::setX(int x){
@@ -40,20 +37,11 @@ Point::~Point(){}
 
 // Segment
 	/* init */
-Segment::Segment(){
-	p1_.setX(0);
-	p1_.setY(0);
-	p2_.setX(0);
-	p2_.setY(0);
-}
-Segment::Segment(Point p1, Point p2){
-	p1_ = p1;
-	p2_ = p2;
-}
-Segment::Segment(const Segment &s){
-	p1_= s.p1_;
-	p2_= s.p2_;
-}
+Segment::Segment(): p1_(Point(0,0)), p2_(Point(0,0)){}
+
+Segment::Segment(Point p1, Point p2): p1_(p1), p2_(p2){}
+
+Segment::Segment(const Segment &s): p1_(s.p1_), p2_(s.p2_){}
 
 
 	/* all setters */
@@ -85,29 +73,13 @@ Segment::~Segment(){}
 
 // Triangle
 	/* init */
-Triangle::Triangle(){
-	p1_.setX(0);
-	p1_.setY(0);
-	p2_.setX(0);
-	p2_.setY(0);
-	p3_.setX(0);
-	p3_.setY(0);
-}
-Triangle::Triangle(Point p1, Point p2, Point p3){
-	p1_ = p1;
-	p2_ = p2;
-	p3_ = p3;
-}
-Triangle::Triangle(Segment s, Point p){
-	p1_ = s.getP1();
-	p2_ = s.getP2();
-	p3_ = p;
-}
-Triangle::Triangle(const Triangle &t){
-	p1_ = t.p1_;
-	p2_ = t.p2_;
-	p3_ = t.p3_;
-}
+Triangle::Triangle(): p1_(Point(0,0)), p2_(Point(0,0)), p3_(Point(0,0)){}
+
+Triangle::Triangle(Point p1, Point p2, Point p3): p1_(p1), p2_(p2), p3_(p3){}
+
+Triangle::Triangle(Segment s, Point p): p1_(s.getP1()), p2_(s.getP2()), p3_(p){}
+
+Triangle::Triangle(const Triangle &t): p1_(t.p1_), p2_(t.p2_), p3_(t.p3_){}
 
 	/*setters*/
 void Triangle::transpose(int x, int y){
@@ -134,13 +106,12 @@ Point Triangle::getP3(){
 Triangle::~Triangle(){}
 // Polygone
 	/* init */
-Polygone::Polygone(){
+Polygone::Polygone() : tp(), nbreP(3){
 	tp.push_back(Point());
 	tp.push_back(Point());
 	tp.push_back(Point());
-	nbreP = 3;
 }
-Polygone::Polygone(int n, ...){
+Polygone::Polygone(int n, ...) : tp(), nbreP(n){
 	va_list va;
 	va_start(va, n);
 
@@ -148,10 +119,8 @@ Polygone::Polygone(int n, ...){
 	{
 		tp.push_back(va_arg(va, Point));
 	}
-	nbreP = n;
 }
-Polygone::Polygone(Point *tab, int taille){
-	nbreP = taille;
+Polygone::Polygone(Point *tab, int taille) : tp(), nbreP(taille){
 	for (int i = 0; i < taille; ++i)
 	{
 		tp.push_back(tab[i]);
@@ -162,8 +131,8 @@ void Polygone::addP(Point p){
 	tp.push_back(p);
 	nbreP++;
 }
-void Polygone::deleteP(int n){
-	for (int i = n; i < tp.size() - 1; ++i)
+void Polygone::deleteP(unsigned int n){
+	for (unsigned int i = n; i < tp.size() - 1; ++i)
 	{
 		tp[n] = tp[n+1];
 	}
@@ -172,10 +141,10 @@ void Polygone::deleteP(int n){
 }
 
 	/*getters*/
-Point Polygone::getP(int n){
+Point Polygone::getP(unsigned int n){
 	return tp[n];
 }
 
-int Polygone::getNbrePts(){
+unsigned int Polygone::getNbrePts(){
 	return nbreP;
 }
