@@ -132,9 +132,9 @@ void Polygone::addP(Point p){
 	nbreP++;
 }
 void Polygone::deleteP(unsigned int n){
-	for (unsigned int i = n; i < tp.size() - 1; ++i)
+	for (unsigned int i = n; i < tp.size() - 1; i++)
 	{
-		tp[n] = tp[n+1];
+		tp[i] = tp[i+1];
 	}
 	tp.pop_back();
 	nbreP--;
