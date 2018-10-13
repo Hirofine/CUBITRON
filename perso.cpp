@@ -7,7 +7,7 @@
 
 
 /* init */
-Perso::Perso():posx_(300), posy_(300),width_(100), height_(100), speedx_(3), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(0), initFallPosy_(0), initFallSpeedy_(0), isJumping_(0){
+Perso::Perso():posx_(300), posy_(300),width_(PERSO_SIZE), height_(PERSO_SIZE), speedx_(3), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(0), initFallPosy_(0), initFallSpeedy_(0), isJumping_(0){
 }
 
 

@@ -4,6 +4,7 @@
 #define GRAVITY -0.01
 #define JUMP_SPEED 2.3
 #define DASH_VAL 200
+#define PERSO_SIZE 100
 
 #include <SDL/SDL.h>
 #include <cmath>

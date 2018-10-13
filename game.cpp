@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 
+
 Game::Game():perso(), game_running_(false), sdl_screen_(NULL), textures_(NULL), ntextures(0), textsize(0), bpp_(0), width_(0), height_(0){
 }
 
@@ -83,12 +84,22 @@ void Game::putpixel(int x, int y, Uint32 pixel){
     }
 }
 void Game::drawObject(){
-    
+    int random = rand();
     for(int i = 0; i < perso.getWidth(); i++){
         for(int j = 0; j < perso.getHeight(); j++){
             putpixel(perso.getX() + i, perso.getY() + j, SDL_MapRGB(sdl_screen_->format, 255,255,255));
         }
-    }
+    }/*
+    for(int i = 0; i < perso.getWidth() + 40; i++){
+        for(int j = 0; j < perso.getHeight() + 40; j++){
+            if(i < 20 || i > perso.getWidth() || j < 20 || j > perso.getHeight()){
+                if(random%30 == 0 ){
+                    putpixel(perso.getX() - 20 + i, perso.getY() - 20 + j, SDL_MapRGB(sdl_screen_->format, 255,255,0));
+                }
+                random = rand();
+            }
+        }
+    }*/
 }
 
 void Game::movePerso(Perso *perso){

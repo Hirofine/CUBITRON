@@ -5,6 +5,7 @@
 #define SCREEN_HEIGHT 720
 #include <SDL/SDL.h>
 #include "perso.h"
+#include <cstdlib>
  
 class Game{
 public:
@@ -17,6 +18,7 @@ public:
   Perso perso;
   void drawObject();
   void movePerso(Perso *perso);
+  Map map;
   
 private:
   void putpixel(int x, int y, Uint32 pixel);
