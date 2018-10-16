@@ -70,10 +70,10 @@ class Polygone{
 		Polygone(Point *tab, int taille);
 
 		void addP(Point p);
-		void deleteP(int n);
+		void deleteP(unsigned int n);
 
-		Point getP(int n);
-		int getNbrePts();
+		Point getP(unsigned int n);
+		unsigned int getNbrePts();
 	private:
 		std::vector<Point> tp;
 		int nbreP;

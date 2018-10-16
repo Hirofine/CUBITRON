@@ -28,7 +28,7 @@ void afficher(Triangle t){
 }
 
 void afficher(Polygone p){
-	for (int i = 0; i < p.getNbrePts(); ++i)
+	for (unsigned int i = 0; i < p.getNbrePts(); ++i)
 	{
 		cout<<"P"<< i+1 <<" : ";
 		afficher(p.getP(i));
@@ -36,7 +36,7 @@ void afficher(Polygone p){
 }
 
 
-int main(){
+void test(){
     Segment s = Segment();
     afficher(s);
     Triangle t = Triangle(Point(10,50), Point(100,70), Point(90,60));
