@@ -9,6 +9,7 @@
 #include <SDL/SDL.h>
 #include <cmath>
 #include <iostream>
+#include "map.h"
 
 class Perso{
 public:
@@ -18,9 +19,9 @@ public:
   void setDirY(int dir);
   void setSpeedx(int speed);
   void setSpeedy(float speed);
-  void fall();
+  void fall(Map map);
   void jump();
-  void dash();
+  void dash(Map map);
   void setX(int x);
   void setY(int y);
   void setIsJumping(int val);
@@ -36,7 +37,7 @@ public:
   int getHeight();
   int getOrientation();
   
-  bool collide();
+  bool collide(Map map, int posx, int posy);
   void draw();
 private:
   int posx_;

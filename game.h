@@ -6,6 +6,7 @@
 #include <SDL/SDL.h>
 #include "perso.h"
 #include <cstdlib>
+#include "map.h"
  
 class Game{
 public:
@@ -17,8 +18,10 @@ public:
   void handleEvents();
   Perso perso;
   void drawObject();
+  void drawMap();
   void movePerso(Perso *perso);
   Map map;
+  bool collide();
   
 private:
   void putpixel(int x, int y, Uint32 pixel);

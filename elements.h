@@ -1,6 +1,6 @@
 #ifndef _ELEMENTS_
 #define _ELEMENTS_
-
+#if 0
 #include <vector>
 #include "stdarg.h"
 
@@ -68,6 +68,7 @@ class Polygone{
 		Polygone();
 		Polygone(int n, ...);
 		Polygone(Point *tab, int taille);
+       
 
 		void addP(Point p);
 		void deleteP(unsigned int n);
@@ -78,5 +79,5 @@ class Polygone{
 		std::vector<Point> tp;
 		int nbreP;
 };
-
+#endif
 #endif

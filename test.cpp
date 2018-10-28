@@ -2,7 +2,7 @@
 #include <iostream>
 
 using namespace std;
-
+/*
 void afficher(Point p){
 	cout<<"x : "<<p.getX()<<" , y : "<<p.getY()<<" ";
 }
@@ -45,6 +45,7 @@ void test(){
     afficher(p);
     p.addP(Point(89, 70));
     afficher(p);
-    p.deleteP(2);
+   // p.deleteP(2);
     afficher(p);
 }
+*/

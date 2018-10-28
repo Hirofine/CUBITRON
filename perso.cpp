@@ -6,8 +6,9 @@
 
 
 
+
 /* init */
-Perso::Perso():posx_(300), posy_(300),width_(PERSO_SIZE), height_(PERSO_SIZE), speedx_(3), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(0), initFallPosy_(0), initFallSpeedy_(0), isJumping_(0){
+Perso::Perso():posx_(490), posy_(310),width_(PERSO_SIZE), height_(PERSO_SIZE), speedx_(3), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(0), initFallPosy_(0), initFallSpeedy_(0), isJumping_(0){
 }
 
 
@@ -57,9 +58,9 @@ void Perso::jump(){
     
 }
 
-void Perso::dash(){
+void Perso::dash(Map map){
     int posx = posx_ + (DASH_VAL * orientation_);
-    if(!collide()){
+    if(!collide(map, posx, posy_)){
         posx_ = posx;
     }else{
         if(posx >= SCREEN_WIDTH - width_){
@@ -72,20 +73,27 @@ void Perso::dash(){
     
 }
 
-void Perso::fall(){
+void Perso::fall(Map map){
+    
     double posy = (initFallPosy_) + (initFallSpeedy_ * (SDL_GetTicks() - initFall_)) +  ((int)(GRAVITY * ((SDL_GetTicks() - initFall_)*(SDL_GetTicks() - initFall_)))>>1) ;
-    if (posy < SCREEN_HEIGHT && (posy > height_) && !collide()){ 
+    if (!collide(map, posx_, posy) && posy > height_ + 60){ //saut
         posy_ = (int)(SCREEN_HEIGHT - posy);
         speedy_ = initFallSpeedy_ + GRAVITY * (SDL_GetTicks() - initFall_);
+        //printf("dans fall cas !collide()\n");
     }else{
-        if(posy < height_){
-            posy_ = SCREEN_HEIGHT - height_;
+        //TODO check presence or not of map under player
+        if(posy < height_){ // fin du saut
+           // printf("posy = %d\n", posy_);
+            posy_ = SCREEN_HEIGHT - height_ - 61;;
+            
             isJumping_ = 0;
+            speedy_ = 0; 
             
         }else{
             speedy_ = 0;
         }
     }
+    printf("posy_ = %d, posy = %f\n", posy_, posy);
 }
 
 void Perso::setX(int x){
@@ -121,8 +129,23 @@ void Perso::setOrientation(int orientation){
 }
 
 /* other */
-bool Perso::collide(){
-    return (posx_ < 0 || posx_ > SCREEN_WIDTH - width_ || posy_ < 0 || posy_ > SCREEN_HEIGHT - height_);
+bool Perso::collide(Map map, int posx, int posy){
+    //printf("posy = %d\n", posy);
+    bool collide = false;
+    bool temp = false;
+    collide = collide || (posx <=0 || posx >= (1080 - width_));
+    for(int i = 0; i < 12; i++){
+        for(int j = 0; j < 18; j++){
+            if(map.map_[i][j] != 0){
+                temp = temp || (posx >= j * 60 && posx <= j* 60 + 60);
+                temp = temp && posy >= 60 * i - 100 && posy <= 60 * i + 60 - 100;
+                collide = collide || temp;
+               // printf("collide = %d, temp = %d \n", collide, temp);
+            }
+        }
+    }
+   // printf("collide = %d, posy = %d\n", collide, posy);
+    return collide;
 }
 
 

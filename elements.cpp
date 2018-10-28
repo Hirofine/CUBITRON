@@ -1,3 +1,4 @@
+#if 0
 #include "elements.h"
 #include <vector>
 #include "stdarg.h"
@@ -179,3 +180,4 @@ Point Polygone::getP(int n){
 int Polygone::getNbrePts(){
 	return nbreP;
 }
+#endif
