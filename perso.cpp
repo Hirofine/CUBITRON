@@ -8,7 +8,7 @@
 
 
 /* init */
-Perso::Perso():posx_(490), posy_(310),width_(PERSO_SIZE), height_(PERSO_SIZE), speedx_(3), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(0), initFallPosy_(0), initFallSpeedy_(0), isJumping_(0){
+Perso::Perso():posx_(490), posy_(310),width_(PERSO_SIZE), height_(PERSO_SIZE), speedx_(3), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(SDL_GetTicks()), initFallPosy_(SCREEN_HEIGHT - posy_), initFallSpeedy_(0), isJumping_(0){
 }
 
 
@@ -59,8 +59,8 @@ void Perso::jump(){
 }
 
 void Perso::dash(Map map){
-    int posx = posx_ + (DASH_VAL * orientation_);
-    if(!collide(map, posx, posy_)){
+   /* int posx = posx_ + (DASH_VAL * orientation_);
+    if(!collideY(map, posy_)){
         posx_ = posx;
     }else{
         if(posx >= SCREEN_WIDTH - width_){
@@ -69,31 +69,81 @@ void Perso::dash(Map map){
             posx_ = 0;
         }
     }
-    
+    */
     
 }
 
 void Perso::fall(Map map){
-    
+    int ground = 0;
+    int screen_heigth = SCREEN_HEIGHT;
     double posy = (initFallPosy_) + (initFallSpeedy_ * (SDL_GetTicks() - initFall_)) +  ((int)(GRAVITY * ((SDL_GetTicks() - initFall_)*(SDL_GetTicks() - initFall_)))>>1) ;
-    if (!collide(map, posx_, posy) && posy > height_ + 60){ //saut
+    //ground = 1 + posy / 60;
+    posy = posy > 0 ? posy : 0;
+    bool coll = collideY(posy);
+    bool imup = isMapUnderPlayer(map, posx_, posy);
+    
+    
+    if (!coll && !imup){ //saut
+       // printf("imup = %d\n", imup);
         posy_ = (int)(SCREEN_HEIGHT - posy);
         speedy_ = initFallSpeedy_ + GRAVITY * (SDL_GetTicks() - initFall_);
         //printf("dans fall cas !collide()\n");
     }else{
+        
         //TODO check presence or not of map under player
-        if(posy < height_){ // fin du saut
-           // printf("posy = %d\n", posy_);
-            posy_ = SCREEN_HEIGHT - height_ - 61;;
+            // fin du saut
+            if(imup){
+                
+                ground = 1 + (posy) / 60;
+                printf("ground = %d\n", ground);
+                screen_heigth = SCREEN_HEIGHT - 60;
+                //printf("imup = 1, ground = %d, posy = %d, posy_ = %d\n",ground, posy, posy_);
+            }else{
+                ground = 0;
+            }
+      //      printf("dans fall cas collide\n");
+            posy_ = SCREEN_HEIGHT - width_ -  60 * ground;
             
             isJumping_ = 0;
             speedy_ = 0; 
-            
-        }else{
-            speedy_ = 0;
-        }
     }
-    printf("posy_ = %d, posy = %f\n", posy_, posy);
+    //printf("posy_ = %d\n", posy_);
+    //printf("posy_ = %d, posy = %f, ground = %d\n", posy_, posy, ground);
+}
+
+bool Perso::isMapUnderPlayer(Map map, int posx, int posy){
+    int indx, indy;
+   // printf("in imup, posx = %d\n", posx);
+    indx = (posx ) / SQUARE_SIZE;
+    indy = 11 - (posy / SQUARE_SIZE);
+   // printf("imup indy = %d\n", indy);
+    //printf("indx = %d, indy = %d\n", indx, indy);
+    bool coll = false;
+    coll = coll || (indy > 11 ? map.map_[11][indx] : map.map_[indy][indx]) != 0;
+   // printf("map[%d][%d] = %d\n",indy ,indx,map.map_[indy][indx]);
+    indx=(posx + width_) / SQUARE_SIZE;
+    coll = coll || map.map_[indy][indx] != 0;
+    //printf("map[%d][%d] = %d\n",indy,indx,map.map_[indy][indx]);
+   // printf("coll = %d\n", coll);
+//     printf("coll map = %d\n", coll);
+    return coll;
+}
+
+bool Perso::collideY(int posy){
+    bool coll = false;
+    if(posy - width_ < 0){
+        coll = true;
+    }
+    return coll;
+   
+}
+
+bool Perso::collideX(Map map, int posx){
+        bool coll = false;
+        if(posx < 0 || posx > SCREEN_WIDTH - width_){
+            coll = true;
+        }
+        return coll;
 }
 
 void Perso::setX(int x){
@@ -129,24 +179,7 @@ void Perso::setOrientation(int orientation){
 }
 
 /* other */
-bool Perso::collide(Map map, int posx, int posy){
-    //printf("posy = %d\n", posy);
-    bool collide = false;
-    bool temp = false;
-    collide = collide || (posx <=0 || posx >= (1080 - width_));
-    for(int i = 0; i < 12; i++){
-        for(int j = 0; j < 18; j++){
-            if(map.map_[i][j] != 0){
-                temp = temp || (posx >= j * 60 && posx <= j* 60 + 60);
-                temp = temp && posy >= 60 * i - 100 && posy <= 60 * i + 60 - 100;
-                collide = collide || temp;
-               // printf("collide = %d, temp = %d \n", collide, temp);
-            }
-        }
-    }
-   // printf("collide = %d, posy = %d\n", collide, posy);
-    return collide;
-}
+
 
 
             

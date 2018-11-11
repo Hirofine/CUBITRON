@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <iostream>
 
-#define MAP "map.txt"
-#define SQUARE_SIZE 60
+
 Map::Map():width_(1080), height_(720), map_(){
      charge();
 }

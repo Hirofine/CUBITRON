@@ -177,13 +177,13 @@ void Game::drawMap(){
 }
 
 void Game::movePerso(Perso *perso){
-    if (!perso->collide(map, perso->getX(), perso->getY())){
-        int posx = perso->getX() + (perso->getSpeedx() * perso->getDirX());
+    int posx = perso->getX() + (perso->getSpeedx() * perso->getDirX());
+    if (!perso->collideX(map, posx)){
         perso->setX(posx);
-        perso->fall(map);
     }
+    perso->fall(map);
 }
-
+/*
 bool Game::collide(){
     int posx = perso.getX() + (perso.getSpeedx() * perso.getDirX());
     int posy = perso.getY();
@@ -202,4 +202,4 @@ bool Game::collide(){
         }
     }
     return collide;
-}
+}*/
