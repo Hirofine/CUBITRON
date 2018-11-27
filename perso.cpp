@@ -8,7 +8,7 @@
 
 
 /* init */
-Perso::Perso():posx_(490), posy_(310),width_(PERSO_SIZE), height_(PERSO_SIZE), speedx_(3), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(SDL_GetTicks()), initFallPosy_(SCREEN_HEIGHT - posy_), initFallSpeedy_(0), isJumping_(0), hasJustLanded_(false){
+Perso::Perso():posx_(490), posy_(310),width_(PERSO_SIZE), height_(PERSO_SIZE), speedx_(PERSO_SPEED), speedy_(1.), dirx_(0), diry_(1), orientation_(1), initJump_(0), initFall_(SDL_GetTicks()), initFallPosy_(SCREEN_HEIGHT - posy_), initFallSpeedy_(0), isJumping_(0), hasJustLanded_(false){
 }
 
 
@@ -48,7 +48,7 @@ int Perso::getDirY(){
 
 /* all setters */
 void Perso::jump(){
-    if(isJumping_ == 0){
+    if(isJumping_ < 2){
         speedy_ = JUMP_SPEED;
         initFall_ = SDL_GetTicks();
         initFallPosy_ = (SCREEN_HEIGHT - posy_);
@@ -77,92 +77,34 @@ void Perso::dash(Map map){
 
 void Perso::fall(Map map){
     int ground = 60;
-    
-    //int screen_heigth = SCREEN_HEIGHT;
-    double posy = (initFallPosy_) + (initFallSpeedy_ * (SDL_GetTicks() - initFall_)) +  ((int)(GRAVITY * ((SDL_GetTicks() - initFall_)*(SDL_GetTicks() - initFall_)))>>1) ;
-    //ground = 1 + posy / 60;
-    posy = posy > 0 ? posy : 0;
-    bool coll = collideX(map, posx_ ,(int)posy);
-    bool imup = isMapUnderPlayer(map, posx_, posy);
-    
+    int screen_heigth = SCREEN_HEIGHT - SQUARE_SIZE;
+    double posy = (initFallPosy_) + (initFallSpeedy_ * (SDL_GetTicks() - initFall_)) +  ((int)(GRAVITY * ((SDL_GetTicks() - initFall_)*(SDL_GetTicks() - initFall_)))>>1) ; // equation 
+    posy = posy > 0 ? posy : PERSO_SIZE;
+    bool coll = collide(posx_ ,(int)posy);
     
     if (!coll){ //saut
-       // printf("imup = %d\n", imup);
-        posy_ = (int)(SCREEN_HEIGHT - posy);
+        posy_ = (int)(screen_heigth - posy);
         speedy_ = initFallSpeedy_ + GRAVITY * (SDL_GetTicks() - initFall_);
         initJump_ = SDL_GetTicks();
-        hasJustLanded_ = true;
-        //printf("dans fall cas !collide()\n");
+
     }else{
-        if(!imup){
-            initFall_ = SDL_GetTicks();
-            initFallPosy_ = (SCREEN_HEIGHT - posy_);
-            initFallSpeedy_ = speedy_;
-            hasJustLanded_ = true;
-            //printf("not map under player\n");
-        }else{
-            if(hasJustLanded_){
-                posy_ = SCREEN_HEIGHT - (posy - ((int)posy % PERSO_SIZE)) - PERSO_SIZE - ground;
-                //printf("Corrige la position du joueur\n");
-                hasJustLanded_ = false;
-            }
-            
+            posy_ = screen_heigth - SQUARE_SIZE - PERSO_SIZE;
             isJumping_ = 0;
-            speedy_ = 0; 
-        }
     }
-    //printf("posy_ = %d\n", posy_);
-    //printf("posy_ = %d, posy = %f, ground = %d\n", posy_, posy, ground);
-}
-
-bool Perso::isMapUnderPlayer(Map map, int posx, int posy){
-    int indx, indy;
-    indx = (posx ) / SQUARE_SIZE;
-    indy = 11 - (posy / SQUARE_SIZE);
-    bool coll = false;
-    coll = coll || (indy > 11 ? map.map_[11][indx] : map.map_[indy][indx]) != 0;
-    indx=(posx + width_) / SQUARE_SIZE;
-    coll = coll || map.map_[indy][indx] != 0;
-    //printf("imup[%d][%d] = %d\n", indy, indx, coll);
-    return coll;
 }
 
 
 
-bool Perso::collideX(Map map, int posx, int posy){
-        printf("Test des collisions, nouvelle boucle\n");
+
+
+bool Perso::collide(int posx, int posy){
         bool coll = false;
-        for(int i = 0; i< 18; i++){
-            for (int j = 0; j< 12; j++){
-                if(map.map_[j][i] !=0){
-                    coll = coll || collideY(posx, posy, i, j);
-                    coll = coll || collideY(posx + PERSO_SIZE, posy, i, j);
-                    coll = coll || collideY(posx + PERSO_SIZE, posy + PERSO_SIZE, i, j);
-                    coll = coll || collideY(posx, posy + PERSO_SIZE, i, j);
-                    printf("apres tour i = %d, j = %d, coll = %d\n",i,j,coll);
-                    if(coll == 1){
-                        printf("map[%d][%d] = %d\n", j, i, coll);
-                        printf("indx = %d, indy = %d\n", (posx / SQUARE_SIZE), (11 - (posy / SQUARE_SIZE))); 
-                    }
-                }
-            }
-        }
         coll = coll || posy - PERSO_SIZE < 0 ;
         coll = coll || posx < 0 ;
-        coll = coll || posx + PERSO_SIZE > SCREEN_WIDTH;
-        printf("posx = %d, posy = %d, coll = %d\n", posx, posy, coll);
+        coll = coll || posx + PERSO_SIZE > SCREEN_WIDTH - SQUARE_SIZE;
         return coll;
 }
 
-
-bool Perso::collideY(int x, int y, int i, int j){
-    bool collx = false;
-    bool colly = false;
-    collx = (x >= SQUARE_SIZE * j && x <= SQUARE_SIZE * (j + 1));
-    colly = y >= SQUARE_SIZE * i && y <= SQUARE_SIZE * (i + 1);
-    return (collx && colly);
-   
-}
 
 void Perso::setX(int x){
     posx_ = x;
@@ -190,6 +132,10 @@ void Perso::setSpeedy(float speed){
 
 void Perso::setIsJumping(int val){
     isJumping_ = val; 
+}
+
+void Perso::incIsJumping(){
+    isJumping_ += 1;
 }
 
 void Perso::setOrientation(int orientation){

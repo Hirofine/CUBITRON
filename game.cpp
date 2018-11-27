@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Game::Game():perso(), map(), game_running_(false), sdl_screen_(NULL), textures_(NULL), ntextures(0), textsize(0), bpp_(0), width_(0), height_(0){
+Game::Game():perso1(), perso2(), map(), game_running_(false), sdl_screen_(NULL), textures_(NULL), ntextures(0), textsize(0), bpp_(0), width_(0), height_(0){
    
 }
 
@@ -32,27 +32,49 @@ void Game::handleEvents(){
     game_running_ = !(SDL_QUIT==event.type || (SDL_KEYDOWN==event.type && SDLK_ESCAPE==event.key.keysym.sym));
     if(SDL_KEYDOWN == event.type){
         if('q' == event.key.keysym.sym){
-            perso.setDirX(-1);
-            perso.setOrientation(-1);
+            perso1.setDirX(-1);
+            perso1.setOrientation(-1);
         }
         if('d' == event.key.keysym.sym){
-            perso.setDirX(1);
-            perso.setOrientation(1);
+            perso1.setDirX(1);
+            perso1.setOrientation(1);
         }
         if(' ' == event.key.keysym.sym){
-             perso.jump();
-             perso.setIsJumping(1);
+             perso1.jump();
+             perso1.incIsJumping();
         }
         if('e' == event.key.keysym.sym){
-            perso.dash(map);
+            perso1.dash(map);
         }
+        if(SDLK_KP0 == event.key.keysym.sym){
+            perso2.jump();
+            perso2.incIsJumping();
+        }
+        if(SDLK_RIGHT == event.key.keysym.sym){
+            perso2.setDirX(1);
+            perso2.setOrientation(1);
+        }
+        if(SDLK_LEFT == event.key.keysym.sym){
+            perso2.setDirX(-1);
+            perso2.setOrientation(-1);
+        }
+        if('1' == event.key.keysym.sym){
+            perso1.dash(map);
+        }
+        
     }
     if(SDL_KEYUP == event.type){
-        if('q' == event.key.keysym.sym && perso.getDirX() == -1){
-            perso.setDirX(0);
+        if('q' == event.key.keysym.sym && perso1.getDirX() == -1){
+            perso1.setDirX(0);
         }
-        if('d' == event.key.keysym.sym && perso.getDirX() == 1){
-            perso.setDirX(0);
+        if('d' == event.key.keysym.sym && perso1.getDirX() == 1){
+            perso1.setDirX(0);
+        }
+        if(SDLK_LEFT == event.key.keysym.sym && perso2.getDirX() == -1){
+            perso2.setDirX(0);
+        }
+        if(SDLK_RIGHT == event.key.keysym.sym && perso2.getDirX() == 1){
+            perso2.setDirX(0);
         }
     }
   }
@@ -60,7 +82,8 @@ void Game::handleEvents(){
 
 void Game::draw(){
     SDL_FillRect(sdl_screen_, NULL, SDL_MapRGB(sdl_screen_->format, 0, 0, 0));
-    movePerso(&perso);
+    movePerso(&perso1);
+    movePerso(&perso2);
     drawMap();
     
     drawObject();
@@ -86,11 +109,17 @@ void Game::putpixel(int x, int y, Uint32 pixel){
 }
 void Game::drawObject(){
     //int random = rand();
-    for(int i = 0; i < perso.getWidth(); i++){
-        for(int j = 0; j < perso.getHeight(); j++){
-            putpixel(perso.getX() + i, perso.getY() + j, SDL_MapRGB(sdl_screen_->format, 255,255,255));
+    for(int i = 0; i < perso1.getWidth(); i++){
+        for(int j = 0; j < perso1.getHeight(); j++){
+            putpixel(perso1.getX() + i, perso1.getY() + j, SDL_MapRGB(sdl_screen_->format, 255,0,255));
         }
-    }/*
+    }
+    for(int i = 0; i < perso2.getWidth(); i++){
+        for(int j = 0; j < perso2.getHeight(); j++){
+            putpixel(perso2.getX() + i, perso2.getY() + j, SDL_MapRGB(sdl_screen_->format, 255,255,0));
+        }
+    }
+    /*
     for(int i = 0; i < perso.getWidth() + 40; i++){
         for(int j = 0; j < perso.getHeight() + 40; j++){
             if(i < 20 || i > perso.getWidth() || j < 20 || j > perso.getHeight()){

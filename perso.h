@@ -5,6 +5,7 @@
 #define JUMP_SPEED 2.3
 #define DASH_VAL 200
 #define PERSO_SIZE 50
+#define PERSO_SPEED 4
 
 #include <SDL/SDL.h>
 #include <cmath>
@@ -25,6 +26,7 @@ public:
   void setX(int x);
   void setY(int y);
   void setIsJumping(int val);
+  void incIsJumping();
   void setOrientation(int orientation);
   
   int getSpeedx();
@@ -37,9 +39,7 @@ public:
   int getHeight();
   int getOrientation();
   
-  bool collideY(int x, int y, int i, int j);
-  bool collideX(Map map, int posx, int posy);
-  bool isMapUnderPlayer(Map map, int posy, int posx);
+  bool collide(int posx, int posy);
   void draw();
 private:
   int posx_;

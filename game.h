@@ -16,7 +16,8 @@ public:
   void clean();
   void draw();
   void handleEvents();
-  Perso perso;
+  Perso perso1;
+  Perso perso2;
   void drawObject();
   void drawMap();
   void movePerso(Perso *perso);

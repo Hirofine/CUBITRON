@@ -3,13 +3,13 @@
 
 int main(){
  Game game;
- game.perso.setY(360);
  game.initSDL("jeu", 1080, 720, 3);
- game.perso.setY(360);
-
+ game.perso.setX(50);
+ game.perso.setX(50);
+ 
  int n = 0;
  int i,j;
- int fps = 0;
+ int frame = 0;
  for(i =0; i< 12; i++){
         for(j = 0; j< 18; j++){
             printf("%d, ", game.map.map_[i][j]);
@@ -22,10 +22,11 @@ int main(){
     n++;
    // printf("time = %d\n", SDL_GetTicks());
     /* fps */
-    fps = fps +1;
-    if(SDL_GetTicks() % 1000 < 15){
-        printf("                                                fps = %d\n", fps);
-        fps = 0;
+    frame += 1;
+    
+    if(SDL_GetTicks() % 1000 < 10){
+        printf("                                                fps = %d\n", frame);
+        frame = 0;
     }
 
  }
