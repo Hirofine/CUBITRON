@@ -21,7 +21,7 @@ public:
   void drawMap();
   void movePerso(Perso *perso);
   Map map;
-  bool collide();
+  //bool collide();
   
 private:
   void putpixel(int x, int y, Uint32 pixel);

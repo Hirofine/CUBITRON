@@ -4,7 +4,7 @@
 #define GRAVITY -0.01
 #define JUMP_SPEED 2.3
 #define DASH_VAL 200
-#define PERSO_SIZE 100
+#define PERSO_SIZE 50
 
 #include <SDL/SDL.h>
 #include <cmath>
@@ -37,7 +37,9 @@ public:
   int getHeight();
   int getOrientation();
   
-  bool collide(Map map, int posx, int posy);
+  bool collideY(int x, int y, int i, int j);
+  bool collideX(Map map, int posx, int posy);
+  bool isMapUnderPlayer(Map map, int posy, int posx);
   void draw();
 private:
   int posx_;
@@ -55,6 +57,7 @@ private:
   int initFallPosy_;
   float initFallSpeedy_;
   int isJumping_;
+  bool hasJustLanded_;
   
 };
 

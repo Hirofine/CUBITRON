@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Game::Game():perso(), game_running_(false), sdl_screen_(NULL), textures_(NULL), ntextures(0), textsize(0), bpp_(0), width_(0), height_(0), map(){
+Game::Game():perso(), map(), game_running_(false), sdl_screen_(NULL), textures_(NULL), ntextures(0), textsize(0), bpp_(0), width_(0), height_(0){
    
 }
 
@@ -85,7 +85,7 @@ void Game::putpixel(int x, int y, Uint32 pixel){
     }
 }
 void Game::drawObject(){
-    int random = rand();
+    //int random = rand();
     for(int i = 0; i < perso.getWidth(); i++){
         for(int j = 0; j < perso.getHeight(); j++){
             putpixel(perso.getX() + i, perso.getY() + j, SDL_MapRGB(sdl_screen_->format, 255,255,255));
@@ -178,7 +178,7 @@ void Game::drawMap(){
 
 void Game::movePerso(Perso *perso){
     int posx = perso->getX() + (perso->getSpeedx() * perso->getDirX());
-    if (!perso->collideX(map, posx)){
+    if (posx > 0 && posx < SCREEN_WIDTH - perso->getWidth()){
         perso->setX(posx);
     }
     perso->fall(map);

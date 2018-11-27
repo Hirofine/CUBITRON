@@ -3,11 +3,11 @@
 #include <iostream>
 
 
-Map::Map():width_(1080), height_(720), map_(){
+Map::Map(): map_(), width_(1080), height_(720){
      charge();
 }
 
-int Map::charge(){
+void Map::charge(){
     
     FILE* texte = fopen(MAP, "r");
     int temp = 0;
