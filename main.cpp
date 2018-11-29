@@ -1,11 +1,17 @@
 #include "game.h"
 #include <SDL/SDL.h>
+#include <string>
 
 int main(){
  Game game;
+ char str1[] = "Player1";
+ char str2[] = "Player2";
  game.initSDL("jeu", 1080, 720, 3);
- game.perso.setX(50);
- game.perso.setX(50);
+ game.perso1.setX(50);
+ game.perso2.setX(SCREEN_WIDTH - 50 - PERSO_SIZE);
+ printf("Player1 : %s \n", str1);
+ game.perso1.setNom(str1);
+ game.perso2.setNom(str2);
  
  int n = 0;
  int i,j;

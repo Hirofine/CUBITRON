@@ -10,7 +10,10 @@
 #include <SDL/SDL.h>
 #include <cmath>
 #include <iostream>
+#include <string>
 #include "map.h"
+
+using namespace std;
 
 class Perso{
 public:
@@ -20,7 +23,7 @@ public:
   void setDirY(int dir);
   void setSpeedx(int speed);
   void setSpeedy(float speed);
-  void fall(Map map);
+  void fall();
   void jump();
   void dash(Map map);
   void setX(int x);
@@ -28,6 +31,9 @@ public:
   void setIsJumping(int val);
   void incIsJumping();
   void setOrientation(int orientation);
+  void hit(int damage);
+  void animHit();
+  void setNom(char nom[]);
   
   int getSpeedx();
   float getSpeedy();
@@ -38,6 +44,9 @@ public:
   int getWidth();
   int getHeight();
   int getOrientation();
+  int getHealth();
+  char* getNom();
+  
   
   bool collide(int posx, int posy);
   void draw();
@@ -52,12 +61,16 @@ private:
   int diry_;
   int orientation_;
   
+  short health_;
+  
   Uint32 initJump_;
   Uint32 initFall_;
   int initFallPosy_;
   float initFallSpeedy_;
   int isJumping_;
   bool hasJustLanded_;
+  
+  char nom_[10];
   
 };
 

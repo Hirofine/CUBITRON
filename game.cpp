@@ -46,9 +46,15 @@ void Game::handleEvents(){
         if('e' == event.key.keysym.sym){
             perso1.dash(map);
         }
+        if('a' == event.key.keysym.sym){
+            hit(&perso1, &perso2, 1);
+        }
         if(SDLK_KP0 == event.key.keysym.sym){
             perso2.jump();
             perso2.incIsJumping();
+        }
+        if(SDLK_KP2 == event.key.keysym.sym){
+            hit(&perso2, &perso1, 1);
         }
         if(SDLK_RIGHT == event.key.keysym.sym){
             perso2.setDirX(1);
@@ -210,25 +216,18 @@ void Game::movePerso(Perso *perso){
     if (posx > 0 && posx < SCREEN_WIDTH - perso->getWidth()){
         perso->setX(posx);
     }
-    perso->fall(map);
+    perso->fall();
 }
-/*
-bool Game::collide(){
-    int posx = perso.getX() + (perso.getSpeedx() * perso.getDirX());
-    int posy = perso.getY();
-    //printf("posy = %d\n", posy);
-    bool collide = false;
-    bool temp = false;
-    collide = collide || (posx <=0 || posx >= (width_ - perso.getWidth()));
-    for(int i = 0; i < 12; i++){
-        for(int j = 0; j < 18; j++){
-            if(map.map_[i][j] != 0){
-                temp = temp || (posx >= j * 60 && posx <= j* 60 + 60);
-                temp = temp && posy >= 60 * i - 100 && posy <= 60 * i + 60 - 100;
-                collide = collide || temp;
-               // printf("collide = %d, temp = %d \n", collide, temp);
-            }
-        }
+
+void Game::hit(Perso *p1, Perso *p2, int damage){
+    int distx = p1->getX() - p2->getX();
+    distx *= distx;
+    int disty = p1->getY() - p2->getY();
+    disty *= disty;
+    int dist = distx + disty;
+    if(dist < 10000){
+        p2->hit(damage);
+        p1->animHit();
     }
-    return collide;
-}*/
+    printf("%s %d hp || %s %d hp\n", p1->getNom(), p1->getHealth(), p2->getNom(), p2->getHealth());
+}

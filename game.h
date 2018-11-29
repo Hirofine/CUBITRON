@@ -21,6 +21,7 @@ public:
   void drawObject();
   void drawMap();
   void movePerso(Perso *perso);
+  void hit(Perso *p1, Perso *p2, int damage); 
   Map map;
   //bool collide();
   
