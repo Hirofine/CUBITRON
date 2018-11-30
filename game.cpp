@@ -64,7 +64,7 @@ void Game::handleEvents(){
             perso2.setDirX(-1);
             perso2.setOrientation(-1);
         }
-        if('1' == event.key.keysym.sym){
+        if(SDLK_KP1 == event.key.keysym.sym){
             perso1.dash(map);
         }
         
@@ -90,8 +90,9 @@ void Game::draw(){
     SDL_FillRect(sdl_screen_, NULL, SDL_MapRGB(sdl_screen_->format, 0, 0, 0));
     movePerso(&perso1);
     movePerso(&perso2);
-    drawMap();
     
+    drawMap();
+    drawHealth();
     drawObject();
     SDL_Flip(sdl_screen_);
 }
@@ -113,6 +114,25 @@ void Game::putpixel(int x, int y, Uint32 pixel){
         p[i] = ((Uint8*)&pixel)[i];
     }
 }
+
+void Game::drawHealth(){
+    for(int i = 0; i < perso1.getHealth(); i++){
+        for(int k = 30; k< 50; k++){
+            for(int l = 20 * i; l< 20 * i + 20; l++){
+                putpixel(l + 70, k, SDL_MapRGB(sdl_screen_->format, 255,0,0));
+            }
+        }
+    }
+    
+    for(int i = perso2.getHealth(); i > 0; i--){
+       for(int l = 20 * (20 - i) + 610; l < 1010; l++){
+            for(int k = 30; k< 50; k++){
+                putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 255,0,0));
+            }
+        }
+    }
+                    
+}
 void Game::drawObject(){
     //int random = rand();
     for(int i = 0; i < perso1.getWidth(); i++){
@@ -125,6 +145,7 @@ void Game::drawObject(){
             putpixel(perso2.getX() + i, perso2.getY() + j, SDL_MapRGB(sdl_screen_->format, 255,255,0));
         }
     }
+    
     /*
     for(int i = 0; i < perso.getWidth() + 40; i++){
         for(int j = 0; j < perso.getHeight() + 40; j++){
@@ -140,68 +161,68 @@ void Game::drawObject(){
 }
 
 void Game::drawMap(){
-    for(int i = 0; i < 12; i++){
-        for(int j = 0; j < 18; j++){
+    for(int i = 0; i < MAP_SIZE_Y; i++){
+        for(int j = 0; j < MAP_SIZE_X; j++){
             switch(map.map_[i][j]){
                 case 1:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 200,200,200));
                         }
                     }
                     break;
                 case 2:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 20,20,20));
                         }
                     }
                     break;
                 case 3:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 45,45,45));
                         }
                     }
                     break;
                 case 4:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 70,70,70));
                         }
                     }
                     break;
                 case 5:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 100,100,100));
                         }
                     }
                     break;
                 case 6:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 125,125,125));
                         }
                     }
                     break;
                 case 7:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 150,150,150));
                         }
                     }
                     break;
                 case 8:
-                    for(int k = 60 * i; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 175,175,175));
                         }
                     }
                     break;
                 case 9:
-                    for(int k = 60 * i + 30; k< 60 * i + 60; k++){
-                        for(int l = 60 * j; l< 60 * j + 60; l++){
+                    for(int k = SQUARE_SIZE * i + 30; k< SQUARE_SIZE * i + SQUARE_SIZE; k++){
+                        for(int l = SQUARE_SIZE * j; l< SQUARE_SIZE * j + SQUARE_SIZE; l++){
                             putpixel(l, k, SDL_MapRGB(sdl_screen_->format, 255,0,0));
                         }
                     }

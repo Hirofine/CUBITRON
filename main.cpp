@@ -16,9 +16,9 @@ int main(){
  int n = 0;
  int i,j;
  int frame = 0;
- for(i =0; i< 12; i++){
-        for(j = 0; j< 18; j++){
-            printf("%d, ", game.map.map_[i][j]);
+ for(i =0; i< MAP_SIZE_Y; i++){
+        for(j = 0; j< MAP_SIZE_X; j++){
+            printf("%d,", game.map.map_[i][j]);
         }
         printf("\n");
     }

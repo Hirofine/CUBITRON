@@ -20,6 +20,7 @@ public:
   Perso perso2;
   void drawObject();
   void drawMap();
+  void drawHealth();
   void movePerso(Perso *perso);
   void hit(Perso *p1, Perso *p2, int damage); 
   Map map;

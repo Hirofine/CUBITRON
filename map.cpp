@@ -15,14 +15,14 @@ void Map::charge(){
         temp = fgetc(texte);
     }
     int i = 0 , j = 0;
-    while(i < 12){
+    while(i < MAP_SIZE_Y){
         if(temp == '#' || temp == 10){
             temp = fgetc(texte);
         }else{
             map_[i][j] = temp - 48;
             temp = fgetc(texte);
             j = j + 1;
-            if(j == 18){
+            if(j == MAP_SIZE_X){
                 j = 0;
                 i = i + 1;
             }
