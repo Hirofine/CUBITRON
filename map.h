@@ -1,7 +1,7 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#define MAP "map.txt"
+#define MAP "basic.txt"
 #define SQUARE_SIZE 30
 #define MAP_SIZE_X 36
 #define MAP_SIZE_Y 24

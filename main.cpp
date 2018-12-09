@@ -2,7 +2,7 @@
 #include <SDL/SDL.h>
 #include <string>
 
-int main(){
+int main (int argc, char *argv[]){
  Game game;
  char str1[] = "Player1";
  char str2[] = "Player2";
