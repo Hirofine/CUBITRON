@@ -91,10 +91,16 @@ void Game::draw(){
     movePerso(&perso1);
     movePerso(&perso2);
     
+    
     drawMap();
     drawHealth();
     drawObject();
     SDL_Flip(sdl_screen_);
+    if(perso1.getHealth() == 0){
+        win(perso2);
+    }else if(perso2.getHealth() == 0){
+        win(perso1);
+    }
 }
 
 bool Game::running(){
@@ -251,4 +257,10 @@ void Game::hit(Perso *p1, Perso *p2, int damage){
         p1->animHit();
     }
     printf("%s %d hp || %s %d hp\n", p1->getNom(), p1->getHealth(), p2->getNom(), p2->getHealth());
+}
+
+void Game::win(Perso winner){
+    printf("%s gagne!!\n", winner.getNom());
+    SDL_Delay(1000);
+    game_running_ = false;
 }

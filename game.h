@@ -24,6 +24,7 @@ public:
   void movePerso(Perso *perso);
   void hit(Perso *p1, Perso *p2, int damage); 
   Map map;
+  void win(Perso winner);
   //bool collide();
   
 private:
